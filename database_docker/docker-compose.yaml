@@ -1,20 +1,33 @@
 version: '3'
 
 services:
-  local-postres-compose:
-    image: postgres
-    environment:
-      POSTGRES_DB: "springboot_app"
-      POSTGRES_PASSWORD: "uiuq"
-      POSTGRES_USER: "postgres"
+  API:
+    image: 'api-java-rest.jar'
     ports:
-      - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./postgres-data:/var/lib/postgresql/data
-    networks:
-      - postgres-compose-network
+      - "8080:8080"
+    depends_on:
+      PostgreSQL:
+          condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=uiuq
+      - SPRING_JPA_HIBERNATE_DDL=update
 
-networks:
-  postgres-compose-network:
-    driver: bridge
+
+  PostgreSQL:
+      image: postgres
+      environment:
+        POSTGRES_DB: "springboot_app"
+        POSTGRES_PASSWORD: "uiuq"
+        POSTGRES_USER: "postgres"
+      ports:
+        - "5432:5432"
+      volumes:
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        - ./postgres-data:/var/lib/postgresql/data
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 20s
+        timeout: 10s
+        retries: 5 
