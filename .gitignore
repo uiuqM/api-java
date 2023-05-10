@@ -54,6 +54,8 @@ build/
 *.tar.gz
 *.rar
 
+src/main/java/com/projectcourse/project/config/TestConfig.java
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 >>>>>>> 96631c25c017e95aaed64d689994c5e00fea12e7
