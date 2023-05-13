@@ -2,7 +2,7 @@ version: '3'
 
 services:
   API:
-    image: 'api-java-rest.jar'
+    image: 'uiuq/api-java:1.2'
     ports:
       - "8080:8080"
     depends_on:
