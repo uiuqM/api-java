@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,31 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.projectcourse.project.entities.Order;
-import com.projectcourse.project.services.OrderService;
+import com.projectcourse.project.entities.OrderItem;
+import com.projectcourse.project.services.OrderItemService;
 
 @RestController
-@RequestMapping(value = "/orders")
-@CrossOrigin(origins = "*") //Enable CORS
-public class OrderResource {
-	
-	@Autowired
-	private OrderService service;
+@RequestMapping(value = "/orderitems")
+public class OrderItemResource {
+    @Autowired
+	private OrderItemService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Order>> findAll(){
-		List<Order> list = service.findAll();
+	public ResponseEntity<List<OrderItem>> findAll(){
+		List<OrderItem> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Order> findById(@PathVariable Long id) {
-		Order obj = service.findById(id);
+	public ResponseEntity<OrderItem> findById(@PathVariable Long id) {
+		OrderItem obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
-
+	
 	@PostMapping
-	public ResponseEntity<Order> insert(@RequestBody Order obj){
+	public ResponseEntity<OrderItem> insert(@RequestBody OrderItem obj){
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
@@ -53,7 +50,7 @@ public class OrderResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Order> update(@PathVariable Long id, @RequestBody Order obj){
+	public ResponseEntity<OrderItem> update(@PathVariable Long id, @RequestBody OrderItem obj){
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}

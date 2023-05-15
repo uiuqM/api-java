@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.projectcourse.project.services.ProductService;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "*") //Enable CORS
 public class ProductResource {
 	@Autowired
 	ProductService service;
@@ -35,6 +37,7 @@ public class ProductResource {
 		Product obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
+
 	@PostMapping
 	public ResponseEntity<Product> insert(@RequestBody Product obj){
 		obj = service.insert(obj);

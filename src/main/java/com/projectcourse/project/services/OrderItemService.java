@@ -8,29 +8,28 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.projectcourse.project.entities.Order;
-import com.projectcourse.project.repositories.OrderRepository;
+import com.projectcourse.project.entities.OrderItem;
+import com.projectcourse.project.repositories.OrderItemRepository;
 import com.projectcourse.project.services.exceptions.DatabaseException;
 import com.projectcourse.project.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class OrderService {
+public class OrderItemService {
+    @Autowired
+	private OrderItemRepository repository;
 	
-	@Autowired
-	private OrderRepository repository;
-	
-	public List<Order> findAll(){
+	public List<OrderItem> findAll(){
 		return repository.findAll();
 	}
-	
-	public Order findById(Long id) {
-		Optional<Order> obj = repository.findById(id);
+
+	public OrderItem findById(Long id) {
+		Optional<OrderItem> obj = repository.findById(id);
 		return obj.get();
 	}
 
-	public Order insert(Order obj){
+	public OrderItem insert(OrderItem obj){
 		return repository.save(obj);
 	}
 
@@ -44,9 +43,9 @@ public class OrderService {
 		}
 	}
 
-	public Order update(Long id, Order obj){
+	public OrderItem update(Long id, OrderItem obj){
 		try{
-			Order entity = repository.getReferenceById(id);
+			OrderItem entity = repository.getReferenceById(id);
 			updateData(entity, obj);
 			return repository.save(entity);
 		}catch(EntityNotFoundException e){
@@ -55,7 +54,8 @@ public class OrderService {
 		
 	}
 
-	private void updateData(Order entity, Order obj){
-		entity.setOrderStatus(obj.getOrderStatus());
+	private void updateData(OrderItem entity, OrderItem obj){
+		entity.setProduct(obj.getProduct());
+        entity.setQuantity(obj.getQuantity());
 	}
 }

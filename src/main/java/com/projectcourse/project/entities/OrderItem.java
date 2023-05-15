@@ -32,6 +32,10 @@ public class OrderItem implements Serializable{
 		this.price = price;
 	}
 	
+	public OrderItemPK getId() {
+		return id;
+	}
+
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
